@@ -8,19 +8,15 @@ def to_rgb(image):
     if len(image.shape) == 2:
         return cv2.cvtColor(image, cv2.COLOR_GRAY2RGB)
     return cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
-
 def gaussian_blur(image):
     return cv2.GaussianBlur(image, (15, 15), 0)
-
 def grayscale(image):
     return cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
-
 def rotate(image, angle=30):
     h, w = image.shape[:2]
     center = (w // 2, h // 2)
     matrix = cv2.getRotationMatrix2D(center, angle, 1)
     return cv2.warpAffine(image, matrix, (w, h))
-
 def translate(image, tx=100, ty=70):
     h, w = image.shape[:2]
     matrix = np.float32([[1, 0, tx], [0, 1, ty]])
