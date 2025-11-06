@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Random Joke App</title>
+    <style>
+      body { font-family: Arial, sans-serif; max-width: 720px; margin: 2rem auto; padding: 0 1rem; }
+      .card { border: 1px solid #ddd; padding: 1rem 1.25rem; border-radius: 8px; box-shadow: 0 1px 3px rgba(0,0,0,0.05); }
+      button { padding: 0.6rem 1rem; font-size: 1rem; border-radius: 6px; cursor: pointer; }
+      #joke { margin-top: 1rem; font-size: 1.1rem; }
+      #source { color: #666; font-size: 0.9rem; margin-top: 0.5rem; }
+    </style>
+  </head>
+  <body>
+    <h1>Random Joke App</h1>
+    <div class="card">
+      <p>Click the button to fetch a random joke from a free public API.</p>
+      <div>
+        <button id="btn">Get Random Joke</button>
+      </div>
+
+      <div id="joke" aria-live="polite"></div>
+      <div id="source"></div>
+    </div>
+
+    <script src="/static/js/main.js"></script>
+  </body>
+</html>
