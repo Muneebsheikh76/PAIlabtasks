@@ -1,0 +1,55 @@
+<!-- templates/index.html -->
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Hadith QnA Bot</title>
+    <style>
+      body { font-family: Arial, sans-serif; margin: 24px; }
+      .result { border-bottom: 1px solid #ddd; padding: 10px 0; }
+      .score { font-weight: bold; }
+      input { padding: 8px; }
+      button { padding: 8px 12px; }
+    </style>
+  </head>
+  <body>
+    <h1>Hadith QnA Bot</h1>
+    <p>Ask a question in plain English (e.g. "How many prayers are there?").</p>
+    <input id="query" style="width:70%" placeholder="Type your question" />
+    <button id="ask">Ask</button>
+    <div id="results"></div>
+
+    <script>
+      async function ask(q) {
+        const resp = await fetch('/api/query', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ query: q, top_k: 6 })
+        });
+        return resp.json();
+      }
+
+      document.getElementById('ask').addEventListener('click', async () => {
+        const q = document.getElementById('query').value;
+        const data = await ask(q);
+        const el = document.getElementById('results');
+        if (data.error) { el.innerHTML = '<b>Error:</b> ' + data.error; return; }
+        el.innerHTML = '';
+        data.results.forEach(r => {
+          const d = document.createElement('div');
+          d.className = 'result';
+          d.innerHTML = `<div class="score">Score: ${r.score.toFixed(4)}</div>
+                         <div><strong>Hadith #${r.Hadith_Number}</strong> — ${r.Chapter_English}</div>
+                         <div>${r.English_Hadith}</div>
+                         <div><em>Grade:</em> ${r.English_Grade}</div>`;
+          el.appendChild(d);
+        });
+      });
+
+      document.getElementById('query').addEventListener('keyup', (e) => {
+        if (e.key === 'Enter') document.getElementById('ask').click();
+      });
+    </script>
+  </body>
+</html>
